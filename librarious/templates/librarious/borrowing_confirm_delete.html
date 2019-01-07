@@ -1,0 +1,19 @@
+{% extends 'librarious/base.html' %}
+
+{% block content %}
+<div id="borrowing-confirm-delete">
+    <h1>Are you sure want to delete this borrowing?</h1>
+
+    <div>Code: {{ object.code }}</div>
+    <div>Member: {{ object.member }}</div>
+    <div>Book: {{ object.book }}</div>
+    <div>Due Date: {{ object.due_date }}</div>
+    <div>Back Date: {{ object.back_date }}</div>
+
+    <form name="borrowingFormDelete" method="post">
+        {% csrf_token %}
+        <a href="{% url 'borrowing_list' %}" class="btn btn-primary">No</a>
+        <button type="submit" class="btn btn-danger">Yes</button>
+    </form>
+</div>
+{% endblock %}

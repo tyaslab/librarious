@@ -1,0 +1,57 @@
+{% extends 'librarious/base.html' %}
+
+{% block content %}
+<div id="borrowing-list">
+    <h1>Borrowings</h1>
+
+    <div class="mb-4">
+        <a href="{% url 'borrowing_add' %}" class="btn btn-primary">Add New Borrowing</a>
+    </div>
+
+    <div>
+        {% if object_list %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 100px;">Code</th>
+                        <th class="text-center">Member</th>
+                        <th class="text-center">Book</th>
+                        <th class="text-center">Due Date</th>
+                        <th class="text-center">Back Date</th>
+                        <th class="text-center" style="width: 250px;">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in object_list %}
+                        <tr>
+                            <td>{{ object.code }}</td>
+                            <td>{{ object.member }}</td>
+                            <td>{{ object.book }}</td>
+                            <td>
+                                {{ object.due_date }}
+                                {% if object.is_overdue %}
+                                    (Overdue!)
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if object.back_date %}
+                                    {{ object.back_date }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'borrowing_detail' object.id %}" class="btn btn-primary">View</a>
+                                <a href="{% url 'borrowing_update' object.id %}" class="btn btn-primary">Edit</a>
+                                <a href="{% url 'borrowing_delete' object.id %}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            No borrowings available.
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

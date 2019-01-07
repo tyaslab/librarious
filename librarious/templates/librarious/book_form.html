@@ -1,0 +1,84 @@
+{% extends 'librarious/base.html' %}
+
+{% block content %}
+<div id="book-form">
+    <h1>{% if view.kwargs.pk %}Edit{% else %}Add New{% endif %} Book</h1>
+
+    <form name="bookForm" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.code.auto_id }}">Code (Leave blank for automatic code)</label>
+            <input type="text" id="{{ form.code.auto_id }}" class="form-control{% if form.code.errors %} is-invalid{% endif %}" name="{{ form.code.html_name }}" value="{{ form.code.value|default:'' }}">
+            {% if form.code.errors %}
+                {% for error in form.code.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.isbn.auto_id }}">ISBN</label>
+            <input type="text" id="{{ form.isbn.auto_id }}" class="form-control{% if form.isbn.errors %} is-invalid{% endif %}" name="{{ form.isbn.html_name }}" value="{{ form.isbn.value|default:'' }}">
+            {% if form.isbn.errors %}
+                {% for error in form.isbn.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.title.auto_id }}">Title</label>
+            <input type="text" id="{{ form.title.auto_id }}" class="form-control{% if form.title.errors %} is-invalid{% endif %}" name="{{ form.title.html_name }}" value="{{ form.title.value|default:'' }}">
+            {% if form.title.errors %}
+                {% for error in form.title.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.author.auto_id }}">Author</label>
+            <select id="{{ form.author.auto_id }}" name="{{ form.author.html_name }}" class="form-control{% if form.author.errors %} is-invalid{% endif %}">
+                <option value="">-- Select Author --</option>
+                {% for author in author_list %}
+                    <option value="{{ author.id }}"{% if form.instance.author == author %} selected{% endif %}>{{ author.first_name }} {{ author.last_name|default:'' }}</option>
+                {% endfor %}
+            </select>
+            {% if form.author.errors %}
+                {% for error in form.author.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.publisher.auto_id }}">Publisher</label>
+            <select id="{{ form.publisher.auto_id }}" name="{{ form.publisher.html_name }}" class="form-control{% if form.publisher.errors %} is-invalid{% endif %}">
+                <option value="">-- Select Publisher --</option>
+                {% for publisher in publisher_list %}
+                    <option value="{{ publisher.id }}"{% if form.instance.publisher == publisher %} selected{% endif %}>{{ publisher.name }}</option>
+                {% endfor %}
+            </select>
+            {% if form.publisher.errors %}
+                {% for error in form.publisher.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.published_year.auto_id }}">Year</label>
+            <input type="number" id="{{ form.published_year.auto_id }}" class="form-control{% if form.published_year.errors %} is-invalid{% endif %}" name="{{ form.published_year.html_name }}" value="{{ form.published_year.value|default:'' }}">
+            {% if form.published_year.errors %}
+                {% for error in form.published_year.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

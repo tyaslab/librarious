@@ -1,0 +1,42 @@
+{% extends 'librarious/base.html' %}
+
+{% block content %}
+<div id="publisher-list">
+    <h1>Publishers</h1>
+
+    <div class="mb-4">
+        <a href="{% url 'publisher_add' %}" class="btn btn-primary">Add New Publisher</a>
+    </div>
+
+    <div>
+        {% if object_list %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 100px;">Code</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Address</th>
+                        <th class="text-center" style="width: 250px;">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in object_list %}
+                        <tr>
+                            <td>{{ object.code }}</td>
+                            <td>{{ object.name }}</td>
+                            <td>{{ object.address }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'publisher_detail' object.id %}" class="btn btn-primary">View</a>
+                                <a href="{% url 'publisher_update' object.id %}" class="btn btn-primary">Edit</a>
+                                <a href="{% url 'publisher_delete' object.id %}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            No publishers available.
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

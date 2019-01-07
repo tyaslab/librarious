@@ -1,0 +1,74 @@
+{% extends 'librarious/base.html' %}
+
+{% block content %}
+<div id="borrowing-form">
+    <h1>{% if view.kwargs.pk %}Edit{% else %}Add New{% endif %} Borrowing</h1>
+
+    <form name="borrowingForm" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.code.auto_id }}">Code (Leave blank for automatic code)</label>
+            <input type="text" id="{{ form.code.auto_id }}" class="form-control{% if form.code.errors %} is-invalid{% endif %}" name="{{ form.code.html_name }}" value="{{ form.code.value|default:'' }}">
+            {% if form.code.errors %}
+                {% for error in form.code.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.member.auto_id }}">Member</label>
+            <select id="{{ form.member.auto_id }}" name="{{ form.member.html_name }}" class="form-control{% if form.member.errors %} is-invalid{% endif %}">
+                <option value="">-- Select Member --</option>
+                {% for member in member_list %}
+                    <option value="{{ member.id }}"{% if form.instance.member == member %} selected{% endif %}>{{ member.name }}</option>
+                {% endfor %}
+            </select>
+            {% if form.member.errors %}
+                {% for error in form.member.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.book.auto_id }}">Book</label>
+            <select id="{{ form.book.auto_id }}" name="{{ form.book.html_name }}" class="form-control{% if form.book.errors %} is-invalid{% endif %}">
+                <option value="">-- Select Book --</option>
+                {% for book in book_list %}
+                    <option value="{{ book.id }}"{% if form.instance.book == book %} selected{% endif %}>{{ book.title }}</option>
+                {% endfor %}
+            </select>
+            {% if form.book.errors %}
+                {% for error in form.book.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.due_date.auto_id }}">Due Date</label>
+            <input type="date" id="{{ form.due_date.auto_id }}" class="form-control{% if form.due_date.errors %} is-invalid{% endif %}" name="{{ form.due_date.html_name }}" value="{{ form.due_date.value|date:'Y-m-d' }}">
+            {% if form.due_date.errors %}
+                {% for error in form.due_date.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.back_date.auto_id }}">Back Date</label>
+            <input type="date" id="{{ form.back_date.auto_id }}" class="form-control{% if form.back_date.errors %} is-invalid{% endif %}" name="{{ form.back_date.html_name }}" value="{{ form.back_date.value|date:'Y-m-d' }}">
+            {% if form.back_date.errors %}
+                {% for error in form.back_date.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

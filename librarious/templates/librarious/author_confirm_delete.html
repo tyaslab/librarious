@@ -1,0 +1,16 @@
+{% extends 'librarious/base.html' %}
+
+{% block content %}
+<div id="author-confirm-delete">
+    <h1>Are you sure want to delete this author?</h1>
+
+    <div>Code: {{ object.code }}</div>
+    <div>Name: {{ object.first_name }} {{ object.last_name|default:'' }}</div>
+
+    <form name="authorFormDelete" method="post">
+        {% csrf_token %}
+        <a href="{% url 'author_list' %}" class="btn btn-primary">No</a>
+        <button type="submit" class="btn btn-danger">Yes</button>
+    </form>
+</div>
+{% endblock %}

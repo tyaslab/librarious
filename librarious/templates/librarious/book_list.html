@@ -1,0 +1,48 @@
+{% extends 'librarious/base.html' %}
+
+{% block content %}
+<div id="book-list">
+    <h1>Books</h1>
+
+    <div class="mb-4">
+        <a href="{% url 'book_add' %}" class="btn btn-primary">Add New Book</a>
+    </div>
+
+    <div>
+        {% if object_list %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 100px;">Code</th>
+                        <th class="text-center">ISBN</th>
+                        <th class="text-center">Title</th>
+                        <th class="text-center">Author</th>
+                        <th class="text-center">Publisher</th>
+                        <th class="text-center">Year</th>
+                        <th class="text-center" style="width: 250px;">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in object_list %}
+                        <tr>
+                            <td>{{ object.code }}</td>
+                            <td>{{ object.isbn }}</td>
+                            <td>{{ object.title }}</td>
+                            <td>{{ object.author }}</td>
+                            <td>{{ object.publisher }}</td>
+                            <td>{{ object.published_year }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'book_detail' object.id %}" class="btn btn-primary">View</a>
+                                <a href="{% url 'book_update' object.id %}" class="btn btn-primary">Edit</a>
+                                <a href="{% url 'book_delete' object.id %}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            No books available.
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

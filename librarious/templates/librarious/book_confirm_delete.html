@@ -1,0 +1,20 @@
+{% extends 'librarious/base.html' %}
+
+{% block content %}
+<div id="book-confirm-delete">
+    <h1>Are you sure want to delete this book?</h1>
+
+    <div>Code: {{ object.code }}</div>
+    <div>ISBN: {{ object.isbn }}</div>
+    <div>Title: {{ object.title }}</div>
+    <div>Author: {{ object.author }}</div>
+    <div>Publisher: {{ object.publisher }}</div>
+    <div>Year: {{ object.published_year }}</div>
+
+    <form name="bookFormDelete" method="post">
+        {% csrf_token %}
+        <a href="{% url 'book_list' %}" class="btn btn-primary">No</a>
+        <button type="submit" class="btn btn-danger">Yes</button>
+    </form>
+</div>
+{% endblock %}

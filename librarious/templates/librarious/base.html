@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Librarious</title>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}librarious/vendors/bs4/css/bootstrap.css">
+</head>
+<body>
+<div id="webpage">
+    <header id="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'home' %}">Librarious</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'borrowing_list' %}">Borrowing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'author_list' %}">Authors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'publisher_list' %}">Publisher</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'book_list' %}">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'member_list' %}">Members</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'borrowing_add' %}">+Borrow</a>
+                </li>
+            </ul>
+        </div>
+        </nav>
+    </header>
+    <div id="main-content" class="container mt-2">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer id="footer" class="container fixed-bottom">
+        &copy; Librarious 2019
+    </footer>
+</div>
+
+<script src="{{ STATIC_URL }}librarious/vendors/bs4/js/bootstrap.js"></script>
+
+</body>
+</html>
