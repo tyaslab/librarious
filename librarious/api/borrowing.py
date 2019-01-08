@@ -1,3 +1,4 @@
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import permissions
@@ -9,6 +10,12 @@ class BorrowingSerializer(ModelSerializer):
     class Meta:
         model = Borrowing
         fields = ('id', 'code', 'member', 'book', 'due_date', 'back_date')
+
+    def validate_book(self, value):
+        if value.is_being_borrowed():
+            raise serializers.ValidationError('This book has been borrowed')
+
+        return value
 
 
 class BorrowingListAPIView(ListAPIView):

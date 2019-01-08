@@ -4,6 +4,8 @@ from django.db.models import Avg
 from django.utils.crypto import get_random_string
 from django.utils import timezone
 
+from django.contrib.gis.db import models as gis_models
+
 
 def set_code():
     return get_random_string(length=10).upper()
@@ -211,3 +213,64 @@ class Borrowing(models.Model):
         now = datetime.date(now.year, now.month, now.day)
 
         return now > self.due_date
+
+
+# class WorldBorder(gis_models.Model):
+#     # Regular Django fields corresponding to the attributes in the
+#     # world borders shapefile.
+#     name = gis_models.CharField(max_length=50)
+#     area = gis_models.IntegerField()
+#     pop2005 = gis_models.IntegerField('Population 2005')
+#     fips = gis_models.CharField('FIPS Code', max_length=2)
+#     iso2 = gis_models.CharField('2 Digit ISO', max_length=2)
+#     iso3 = gis_models.CharField('3 Digit ISO', max_length=3)
+#     un = gis_models.IntegerField('United Nations Code')
+#     region = gis_models.IntegerField('Region Code')
+#     subregion = gis_models.IntegerField('Sub-Region Code')
+#     lon = gis_models.FloatField()
+#     lat = gis_models.FloatField()
+
+#     # GeoDjango-specific: a geometry field (MultiPolygonField)
+#     mpoly = gis_models.MultiPolygonField()
+
+#     # Returns the string representation of the model.
+#     def __str__(self):
+#         return self.name
+
+
+# from django.contrib.gis.db import models
+
+
+class WorldBorder(gis_models.Model):
+    fips = gis_models.CharField(max_length=2)
+    iso2 = gis_models.CharField(max_length=2)
+    iso3 = gis_models.CharField(max_length=3)
+    un = gis_models.IntegerField()
+    name = gis_models.CharField(max_length=50)
+    area = gis_models.IntegerField()
+    pop2005 = gis_models.BigIntegerField()
+    region = gis_models.IntegerField()
+    subregion = gis_models.IntegerField()
+    lon = gis_models.FloatField()
+    lat = gis_models.FloatField()
+    geom = gis_models.MultiPolygonField(srid=4326)
+
+    def __str__(self):
+        return self.name
+
+
+# Auto-generated `LayerMapping` dictionary for WorldBorder model
+worldborder_mapping = {
+    'fips': 'FIPS',
+    'iso2': 'ISO2',
+    'iso3': 'ISO3',
+    'un': 'UN',
+    'name': 'NAME',
+    'area': 'AREA',
+    'pop2005': 'POP2005',
+    'region': 'REGION',
+    'subregion': 'SUBREGION',
+    'lon': 'LON',
+    'lat': 'LAT',
+    'geom': 'MULTIPOLYGON',
+}
