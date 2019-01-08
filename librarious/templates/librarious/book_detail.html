@@ -2,6 +2,62 @@
 
 {% block content %}
 <div id="book-detail">
-    <h1>Book Detail</h1>
+    <h1>{{ object.title }}</h1>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <div>ISBN: {{ object.isbn }}</div>
+            <div>Title: {{ object.title }}</div>
+            <div>Author: {{ object.author|default:'-' }}</div>
+            <div>Publisher: {{ object.publisher|default:'-' }}</div>
+            <div>Rating: {{ object.get_rating }}</div>
+            <div>Reviews: {{ object.get_review_list.count }}</div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <form name="rateReviewForm" method="post">
+                {{ form.errors }}
+                {{ form.non_field_errors }}
+                {% csrf_token %}
+                <div class="card-title">Rate &amp; Review it!</div>
+                <div class="form-group">
+                    <input type="number" class="form-control" name="{{ form.rate.html_name }}" value="{{ form.rate.value|default:'0' }}" max="5">
+                    {% if form.rate.errors %}
+                        {{ form.rate.errors }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" name="{{ form.review.html_name }}">{{ form.review.value|default:'' }}</textarea>
+                    {% if form.review.errors %}
+                        {{ form.review.errors }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">Reviews of This Book</div>
+
+            {% if object.get_review_list %}
+                <ul class="list-group">
+                    {% for review in object.get_review_list %}
+                        <li class="list-group-item">
+                            <div>{{ review.review }}</div>
+                            <div>Rate: {{ review.rating }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                Be the first to review!
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}

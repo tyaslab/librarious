@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.db.models import Avg
 from django.utils.crypto import get_random_string
 from django.utils import timezone
 
@@ -16,32 +17,34 @@ class Member(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+    user = models.OneToOneField('auth.User', null=True, blank=True, on_delete=models.CASCADE)
+
     class Meta:
         ordering = ('-created',)
 
     def __str__(self):
         return self.name
-    
+
     def save(self, *args, **kwargs):
         if self.id is None:
             self.code = set_code()
 
         super().save(*args, **kwargs)
-    
-    def has_borrowed(self, book):
+
+    def has_ever_borrowed(self, book):
         check_borrowing = Borrowing.objects.filter(
             book=book,
             member=self
         )
 
         return check_borrowing.exists()
-    
+
     def is_borrowing(self, book=None):
         check_borrowing = self.get_borrowing_list()
 
         if book:
             check_borrowing = check_borrowing.filter(book=book)
-        
+
         return check_borrowing.exists()
 
     def get_borrowing_list(self):
@@ -113,12 +116,42 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def save(self, *args, **kwargs):
         if self.id is None:
             self.code = set_code()
 
         super().save(*args, **kwargs)
+
+    def is_being_borrowed(self, member=None):
+        borrowing_list = Borrowing.objects.filter(
+            book=self,
+            back_date__isnull=True
+        )
+
+        if member:
+            borrowing_list = borrowing_list.filter(
+                member=member
+            )
+
+        return borrowing_list.exists()
+
+    def get_rating(self, member=None):
+        review_list = self.get_review_list(member=member)
+
+        return review_list.aggregate(Avg('rating'))['rating__avg'] or 0
+
+    def get_review_list(self, member=None):
+        review_list = Review.objects.filter(
+            book=self
+        )
+
+        if member:
+            review_list = review_list.filter(
+                member=member
+            )
+
+        return review_list
 
 
 # class BookItem(models.Model):
@@ -160,7 +193,7 @@ class Borrowing(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
         ordering = ('-created',)
 
@@ -169,7 +202,7 @@ class Borrowing(models.Model):
             self.code = set_code()
 
         super().save(*args, **kwargs)
-    
+
     def is_overdue(self):
         if self.back_date:
             return False

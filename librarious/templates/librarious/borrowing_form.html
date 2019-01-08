@@ -36,7 +36,7 @@
             <select id="{{ form.book.auto_id }}" name="{{ form.book.html_name }}" class="form-control{% if form.book.errors %} is-invalid{% endif %}">
                 <option value="">-- Select Book --</option>
                 {% for book in book_list %}
-                    <option value="{{ book.id }}"{% if form.instance.book == book %} selected{% endif %}>{{ book.title }}</option>
+                    <option value="{{ book.pk }}"{% if form.book.value == book.pk %} selected{% endif %}>{{ book.title }}</option>
                 {% endfor %}
             </select>
             {% if form.book.errors %}

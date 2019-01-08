@@ -37,6 +37,26 @@
         </div>
 
         <div class="form-group">
+            <label for="{{ form.username.auto_id }}">Username</label>
+            <input type="text" id="{{ form.username.auto_id }}" class="form-control{% if form.username.errors %} is-invalid{% endif %}" name="{{ form.username.html_name }}" value="{{ form.instance.user.username|default:'' }}">
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password.auto_id }}">Password</label>
+            <input type="password" id="{{ form.password.auto_id }}" class="form-control{% if form.password.errors %} is-invalid{% endif %}" name="{{ form.password.html_name }}">
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>

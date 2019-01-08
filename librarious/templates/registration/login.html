@@ -1,0 +1,36 @@
+{% extends 'registration/base.html' %}
+
+{% block content %}
+<div id="login" class="container">
+    <div class="mt-4 row justify-content-md-center">
+        <div class="col-sm-4">
+            <h1 class="text-center">Login</h1>
+            <form name="loginForm" method="post">
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors.0 }}
+                    </div>
+                {% endif %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" id="{{ form.username.auto_id }}" class="form-control{% if form.username.errors %} is-invalid{% endif %}" name="{{ form.username.html_name }}" placeholder="Username">
+                    {% for error in form.username.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="{{ form.password.auto_id }}" class="form-control{% if form.password.errors %} is-invalid{% endif %}" name="{{ form.password.html_name }}" placeholder="Password">
+                    {% for error in form.password.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

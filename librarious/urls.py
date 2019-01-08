@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from .views import *
+from .api.member import *
+from .api.borrowing import *
+
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -38,6 +41,9 @@ urlpatterns = [
     path('member/update/<int:pk>/', MemberUpdateView.as_view(), name='member_update'),
     path('member/delete/<int:pk>/', MemberDeleteView.as_view(), name='member_delete'),
 
+    path('member-area/my-borrowing/list/', MemberAreaMyBorrowingListView.as_view(), name='member_area_my_borrowing_list'),
+    path('member-area/explore-books/list/', MemberAreaExploreBookListView.as_view(), name='member_area_explore_book_list'),
+
     path('author/list/', AuthorListView.as_view(), name='author_list'),
     path('author/detail/<int:pk>/', AuthorDetailView.as_view(), name='author_detail'),
     path('author/add/', AuthorAddView.as_view(), name='author_add'),
@@ -50,6 +56,15 @@ urlpatterns = [
     path('publisher/update/<int:pk>/', PublisherUpdateView.as_view(), name='publisher_update'),
     path('publisher/delete/<int:pk>/', PublisherDeleteView.as_view(), name='publisher_delete'),
 
+    path('api/member/list/', MemberListAPIView.as_view(), name='api_member_list'),
+    path('api/member/create/', MemberCreateAPIView.as_view(), name='api_member_create'),
+    path('api/member/detail/<int:pk>/', MemberDetailAPIView.as_view(), name='api_member_detail'),
+
+    path('api/borrowing/list/', BorrowingListAPIView.as_view(), name='api_borrowing_list'),
+    path('api/borrowing/create/', BorrowingCreateAPIView.as_view(), name='api_borrowing_create'),
+    path('api/borrowing/detail/<int:pk>/', BorrowingDetailAPIView.as_view(), name='api_borrowing_detail'),
+
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]

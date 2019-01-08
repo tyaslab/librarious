@@ -1,0 +1,26 @@
+{% extends 'librarious/base.html' %}
+
+{% block content %}
+<div id="member-area-book-list">
+    <h1>{{ view.title }}</h1>
+        {% for object in object_list %}
+            <div class="card">
+                <div class="card-body">
+                    <div>ISBN: {{ object.isbn }}</div>
+                    <div>Title: {{ object.title }}</div>
+                    <div>Author: {{ object.author|default:'-' }}</div>
+                    <div>Publisher: {{ object.publisher|default:'-' }}</div>
+                    <div>Rating: {{ object.get_rating }}</div>
+                    <div>Reviews: {{ object.get_review_list.count }}</div>
+                    <a href="{% url 'book_detail' object.pk %}" class="card-link">
+                        detail
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    {% if object_list %}
+    {% else %}
+        No books available.
+    {% endif %}
+</div>
+{% endblock %}
