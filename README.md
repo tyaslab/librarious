@@ -4,7 +4,8 @@
     1. Create a virtualenv, enter to virtualenv
     2. ```pip install -r requirements```
     3. ```python manage.py migrate```
-    4. There is a workaround to load worldmap data
+    4. ```python manage.py createsuperuser```
+    5. There is a workaround to load worldmap data
 
         Enter a django shell and do as follows,
         >>> from world import load
