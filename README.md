@@ -85,7 +85,7 @@ For more documentation visit:
     3. https://www.django-rest-framework.org/
 
 ## How to implement GIS?
-
+    Make sure you have loaded worldmap data. If so, go to ```/admin/librarious/worldborder/```
 
 
 ## How to run celery task?
