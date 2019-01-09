@@ -1,8 +1,18 @@
 # Librarious (For Thee, Library-holic drinker)
 
 ## How to install
-    1. Create a virtualenv
+    1. Create a virtualenv, enter to virtualenv
     2. ```pip install -r requirements```
+    3. ```python manage.py migrate```
+    4. There is a workaround to load worldmap data
+
+        Enter a django shell and do as follows,
+        >>> from world import load
+        >>> load.run()
+
+## How to run?
+    1. Enter to virtualenv
+    2. ```python manage.py runserver```
 
 ## Dependencies
     1. Postgresql. For mac, use Postgres (because it also includes postgis)
@@ -74,3 +84,9 @@ For more documentation visit:
     2. https://docs.djangoproject.com/en/2.1/ref/contrib/gis/
     3. https://www.django-rest-framework.org/
 
+## How to implement GIS?
+
+
+
+## How to run celery task?
+To run celery task, to ```celery -A librarious worker --loglevel=info```
