@@ -67,3 +67,10 @@ For RESTful API, you can use ```/api/borrowing/create/``` and your data will loo
 
 Very simple, huh?
 
+
+For more documentation visit:
+
+    1. https://django-oauth-toolkit.readthedocs.io/en/latest/
+    2. https://docs.djangoproject.com/en/2.1/ref/contrib/gis/
+    3. https://www.django-rest-framework.org/
+
