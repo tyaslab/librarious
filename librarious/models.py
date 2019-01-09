@@ -94,7 +94,7 @@ class Publisher(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def save(self, *args, **kwargs):
         if self.id is None:
             self.code = set_code()
